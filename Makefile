@@ -1,6 +1,10 @@
-KERNELSRC ?= /ws/linux-5.5
-ARCH ?= arm64
-CROSS_COMPILE ?= aarch64-linux-gnu-
+KERNELSRC ?= /workspaces/linux
+ifdef ARCH
+KARCH := ARCH=$(ARCH)
+endif
+ifdef CROSS_COMPILE
+KCROSS_COMPILE := CROSS_COMPILE=$(CROSS_COMPILE)
+endif
 PWD ?= $(shell pwd)
 
 obj-m := helloworld.o
@@ -33,12 +37,12 @@ obj-m := helloworld.o
 
 .PHONY: all default
 all default:
-	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERNELSRC) M=$(PWD) modules
+	$(MAKE) $(KARCH) $(KCROSS_COMPILE) -C $(KERNELSRC) M=$(PWD) modules
 
 .PHONY: clean
 clean:
-	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERNELSRC) M=$(PWD) clean
+	$(MAKE) $(KARCH) $(KCROSS_COMPILE) -C $(KERNELSRC) M=$(PWD) clean
 
 .PHONY: install module_install
 install module_install:
-	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERNELSRC) M=$(PWD) module_install
+	$(MAKE) $(KARCH) $(KCROSS_COMPILE) -C $(KERNELSRC) M=$(PWD) module_install

@@ -32,20 +32,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Run QEMU",
-            "detail": "Run QEMU",
-            "type": "shell",
-            "command": "/ws/run_qemu.sh",
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "kmod - build",
             "detail": "Build kernel module",
             "type": "shell",
@@ -76,31 +62,6 @@
             },
             "args": [
                 "clean"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared"
-            },
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "kmod - load",
-            "detail": "Load kernel module in qemu",
-            "type": "shell",
-            "command": "scp",
-            "options": {
-                "cwd": "${workspaceRoot}"
-            },
-            "args": [
-                "-P 2222",
-                "helloworld.ko",
-                "root@localhost:/root"
             ],
             "group": {
                 "kind": "build",

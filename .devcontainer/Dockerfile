@@ -1,9 +1,11 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
-LABEL maintainer="aakbar5"
+LABEL maintainer="alfonder"
 
 ENV LANG C.UTF-8
 ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND="noninteractive"
+#ENV TERM="xterm"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -19,7 +21,7 @@ RUN apt-get update && \
 
 RUN apt-get install -y python3 python3-pip python3-wheel && \
     pip3 install pip --upgrade && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
+    update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 # Use already downloaded sources
 # COPY sources/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz /tmp
@@ -35,55 +37,18 @@ RUN apt-get install -y python3 python3-pip python3-wheel && \
 #     tar -xf 2019.08.3.tar.gz -C /ws/
 
 # Download and extract sources
+
+ENV WORKSPACE="/workspaces"
+ENV LINUX_HOME="$WORKSPACE/linux"
+
 RUN cd /tmp && \
-    mkdir -p /ws && \
-    \
-    wget https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz && \
-    tar -xf gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz -C /ws/ && \
-    \
-    wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.5.tar.xz && \
-    tar -xf linux-5.5.tar.xz -C /ws/ && \
-    \
-    wget https://github.com/buildroot/buildroot/archive/2019.08.3.tar.gz && \
-    tar -xf 2019.08.3.tar.gz -C /ws/
+    mkdir -p ${WORKSPACE} && \
+    mkdir -p ${LINUX_HOME}
 
-ENV WORKSPACE="/ws"
-ENV BUILDROOT_HOME="$WORKSPACE/buildroot-2019.08.3"
-ENV LINUX_HOME="$WORKSPACE/linux-5.5"
-ENV QEMU_HOME="$WORKSPACE/qemu-4.2.0"
-ENV COMPILER_HOME="$WORKSPACE/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu"
-ENV PATH="$COMPILER_HOME/bin:$PATH"
 WORKDIR ${WORKSPACE}
-
-# COPY defconfig
-COPY configs/aarch64-softmmu_buildroot_defconfig ${BUILDROOT_HOME}/configs/
-COPY configs/aarch64-softmmu_kernel_defconfig ${LINUX_HOME}/arch/arm64/configs/
-COPY configs/run_qemu.sh ${WORKSPACE}
-
-# Build root
-RUN cd ${BUILDROOT_HOME} && \
-    make aarch64-softmmu_buildroot_defconfig && \
-    make -j4
-
-# Build kernel
-ENV ARCH=arm64
-ENV CROSS_COMPILE=aarch64-linux-gnu-
-RUN cd ${LINUX_HOME} && \
-    make aarch64-softmmu_kernel_defconfig && \
-    make -j4
-
-# Build Qemu
-# NOTE: QEMU archive downloaded from github.com
-# does not work. https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01676.html
-RUN cd / && \
-    mkdir -p ${QEMU_HOME} && \
-    cd ${QEMU_HOME} && \
-    git clone https://git.qemu.org/git/qemu.git . && \
-    git checkout v4.2.0 && \
-    ./configure --target-list=aarch64-softmmu && \
-    make -j4
 
 RUN apt-get clean && \
     rm -rf /tmp/* /var/tmp/*
 
-CMD ["/bin/bash"]
+VOLUME ${LINUX_HOME}
+CMD "/bin/bash"

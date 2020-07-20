@@ -4,26 +4,22 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/ws/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include",
-                "/ws/linux-5.5/arch/arm64/include",
-                "/ws/linux-5.5/arch/arm64/include/generated",
-                "/ws/linux-5.5/include",
-                "/ws/linux-5.5/include/**",
-                "/ws/linux-5.5/arch/arm64/include/uapi",
-                "/ws/linux-5.5/arch/arm64/include/generated/uapi",
-                "/ws/linux-5.5/include/uapi",
-                "/ws/linux-5.5/include/generated/uapi",
-                "/ws/linux-5.5/include/linux/kconfig.h",
-                "/ws/linux-5.5/include/linux/compiler_types.h"
+                "/usr/lib/gcc/x86_64-linux-gnu/9/include",
+                "${workspaceFolder}/../linux/arch/x86/include",
+                "${workspaceFolder}/../linux/arch/x86/include/generated",
+                "${workspaceFolder}/../linux/include",
+                "${workspaceFolder}/../linux/arch/x86/include/uapi",
+                "${workspaceFolder}/../linux/arch/x86/include/generated/uapi",
+                "${workspaceFolder}/../linux/include/uapi",
+                "${workspaceFolder}/../linux/include/generated/uapi",
+                "${workspaceFolder}/../linux/include/linux"
             ],
             "defines": [
                 "__GNUC__",
                 "__KERNEL__",
-                "MODULE",
-                "KBUILD_BASENAME='\"xor_neon.mod\"'",
-                "KBUILD_MODNAME='\"xor_neon\"'"
+                "MODULE"
             ],
-            "cStandard": "c11",
+            "cStandard": "c99",
             "intelliSenseMode": "clang-x64",
             "compileCommands": "${workspaceFolder}/.vscode/compile_commands.json"
         }
