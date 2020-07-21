@@ -1,8 +1,19 @@
+
+# Info
+This project helps to develop and build Linux kernel modules in VSCode on an alien platform, primarily on Mac (and on Windows too). It uses Docker container with Linux environment and GCC compiler and VSCode's great feature "Remote - Containers" (need to install the same named plugin).
+
+The project is based on [Aleksandr Mezin's vscode-linux-kernel project](https://github.com/amezin/vscode-linux-kernel) and [Asad Akbar's handy-kernel_modules project](https://github.com/aakbar5/handy-kernel_modules). Thank them a lot. The main differences from the former is work-in-docker ability, and from the latter is Qemu and Buildroot independency (no cross-compile). 
+
+# Setup
+- Install VSCode Remote - Containers plugin and corresponding Docker software. See the details [here](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- Clone this project
+- to be continued
+
+
+# Sample Kernel Modules
 <!-- TOC -->
 
-- [Info](#info)
-- [Setup](#setup)
-- [Kernel module](#kernel-module)
+- [Basic](#kernel-module)
     - [Simple](#simple)
     - [With parameter](#with-parameter)
 - [General DS](#general-ds)
@@ -34,16 +45,7 @@
 
 <!-- /TOC -->
 
-# Info
-It contains Linux kernel modules.
-
-# Setup
-- How to do setup of workspace, follow [this](https://aakbar5.wordpress.com/2020/02/15/linux-kernel-vs-code/).
-
-![kernel_in_vscode](.devcontainer/kernel_in_vscode.gif)
-
-
-# Kernel module
+# Basic
 ## Simple
 Simple kernel module
 - [helloworld.c](helloworld.c)
